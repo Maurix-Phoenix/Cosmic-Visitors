@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EventManager : MonoBehaviour
@@ -62,5 +58,30 @@ public class EventManager : MonoBehaviour
         }
     }
     #endregion
+
+    #region STAGE EVENTS
+    public delegate void OnStageGenerated();
+    public static event OnStageGenerated StageGenerated;
+    public delegate void OnStageStart();
+    public static event OnStageStart StageStart;
+
+    public static void RaiseOnStageGenerated()
+    {
+        if(StageGenerated != null)
+        {
+            StageGenerated();
+        }
+    }
+
+    public static void RaiseOnStageStart()
+    {
+        if(StageStart != null)
+        {
+            StageStart();
+        }
+    }
+
+    #endregion
+
     #endregion
 }

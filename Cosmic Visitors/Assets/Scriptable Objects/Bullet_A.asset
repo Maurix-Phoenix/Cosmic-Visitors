@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a44a05c23f2e0354b812b18a58ac5367, type: 3}
+  m_Name: Bullet_A
+  m_EditorClassIdentifier: 
+  BulletPrefab: {fileID: 1189854710126330046, guid: c1c78550eb8ae7a479aa6692fc5ec9e3, type: 3}
+  Name: Standard Bullet
+  Speed: 10
+  Damage: 1
+  Bounce: 0
+  FollowEnemies: 0
+  SplitOnHit: 0
+  OnHitOneKill: 0

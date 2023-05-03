@@ -6,9 +6,10 @@ public class Player : MonoBehaviour, ISpaceShip
 {
     public BulletTemplate[] BT = null;
     public bool canMove;
-    int health = 100;
+    int maxHealth = 5;
+    int currhealth;
     float moveSpeed = 15f;
-    float fireRate = 0.5f;
+    float fireRate = 0.1f;
     float currFireRate = 0;
     Vector3 direction;
 
@@ -19,6 +20,7 @@ public class Player : MonoBehaviour, ISpaceShip
         InputManager.InputMoveRight += OnInputMoveRight;
 
         EventManager.StageStart += OnStageStart;
+        EventManager.StageComplete += OnStageComplete;
 
     }
 
@@ -29,6 +31,7 @@ public class Player : MonoBehaviour, ISpaceShip
         InputManager.InputMoveRight -= OnInputMoveRight;
 
         EventManager.StageStart -= OnStageStart;
+        EventManager.StageComplete -= OnStageComplete;
 
     }
 
@@ -45,7 +48,10 @@ public class Player : MonoBehaviour, ISpaceShip
         canMove = true;
         currFireRate= 0;
     }
-
+    private void OnStageComplete()
+    {
+        currhealth = maxHealth;
+    }
 
     public void Move()
     {
@@ -71,8 +77,8 @@ public class Player : MonoBehaviour, ISpaceShip
 
     public void TakeDamage(int damage)
     {
-        health -= damage;
-        if (health <= 0)
+        currhealth -= damage;
+        if (currhealth <= 0)
         {
             GameManager.Instance.GameState = GameManager.State.GameOver;
         }

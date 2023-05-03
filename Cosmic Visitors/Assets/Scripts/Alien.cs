@@ -89,6 +89,7 @@ public class Alien : MonoBehaviour, ISpaceShip
         Health -= damage;
         if(Health <=0)
         {
+            StageManager.Instance.Aliens.Remove(this);
             Destroy(gameObject);
         }
     }

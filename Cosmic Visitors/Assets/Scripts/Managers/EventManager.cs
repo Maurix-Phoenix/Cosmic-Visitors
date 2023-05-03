@@ -64,6 +64,8 @@ public class EventManager : MonoBehaviour
     public static event OnStageGenerated StageGenerated;
     public delegate void OnStageStart();
     public static event OnStageStart StageStart;
+    public delegate void OnStageComplete();
+    public static event OnStageComplete StageComplete;
 
     public static void RaiseOnStageGenerated()
     {
@@ -78,6 +80,14 @@ public class EventManager : MonoBehaviour
         if(StageStart != null)
         {
             StageStart();
+        }
+    }
+
+    public static void RaiseOnStageComplete()
+    {
+        if(StageComplete!=null)
+        {
+            StageComplete();
         }
     }
 

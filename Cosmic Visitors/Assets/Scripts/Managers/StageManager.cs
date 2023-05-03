@@ -5,6 +5,7 @@ using UnityEngine;
 public class StageManager : MonoBehaviour
 {
     public static StageManager Instance;
+    bool playingStage;
 
     public int StageNumber = 0;
     public Stage CurrentStage = null;
@@ -15,6 +16,7 @@ public class StageManager : MonoBehaviour
     public List<Cell> Cells = new List<Cell>();
     public List<Cell> UsableCells = new List<Cell>();
 
+    public Player Player;
     public GameObject PlayerPrefab;
     public Vector3 PlayerSpawnPos = new Vector3(0,-11,0);
 
@@ -47,6 +49,23 @@ public class StageManager : MonoBehaviour
         EventManager.GamePause -= OnGamePause;
         EventManager.GameOver -= OnGameOver;
         EventManager.StageGenerated -= OnStageGenerated;
+
+    }
+
+    private void Update()
+    {
+        if(playingStage)
+        {
+            if(StageNumber % 5 != 0) 
+            {
+                Debug.Log("playingStage");
+                if (Aliens.Count < 1)
+                {
+                    StageComplete();
+                    EventManager.RaiseOnStageComplete();
+                }
+            }
+        }
     }
 
     private void OnGameStart()
@@ -69,6 +88,7 @@ public class StageManager : MonoBehaviour
 
     private void OnStageGenerated()
     {
+        Debug.Log("New Stage");
         SpawnPlayer();
         StartStage();
     }
@@ -76,12 +96,13 @@ public class StageManager : MonoBehaviour
     public void StartStage() //should be COROUTINE
     {
         //setting a 5 sec timer here..
-
+        playingStage = true;
         EventManager.RaiseOnStageStart();
     }
 
     public void GenerateStage()
     {
+        playingStage= false;
         if(CurrentStage == null)
         {
             CurrentStage = new GameObject($"Stage").AddComponent<Stage>();
@@ -91,6 +112,7 @@ public class StageManager : MonoBehaviour
         ClearStage();
         StageNumber++;
         CurrentStage.GenerateStage(StageNumber);
+        CurrentStage.name = $"Stage {StageNumber}";
     }    
 
     public void ClearStage()
@@ -102,8 +124,23 @@ public class StageManager : MonoBehaviour
         Aliens.Clear();
     }
 
+
+    private void StageComplete()
+    {
+        Debug.Log("StageCompleted");
+        GenerateStage();
+    }
+
+
     private void SpawnPlayer()
     {
-        Instantiate(PlayerPrefab, PlayerSpawnPos, Quaternion.identity);
+        if(Player == null)
+        {
+            Player = Instantiate(PlayerPrefab, PlayerSpawnPos, Quaternion.identity).GetComponent<Player>();
+        }
+        else
+        {
+            Player.transform.position = PlayerSpawnPos;
+        }
     }
 }

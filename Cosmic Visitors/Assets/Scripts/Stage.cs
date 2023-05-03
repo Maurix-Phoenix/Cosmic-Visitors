@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -94,18 +95,19 @@ public class Stage : MonoBehaviour
                 Cell alienCell = StageManager.Instance.UsableCells[Random.Range(0, StageManager.Instance.UsableCells.Count)];
                 StageManager.Instance.UsableCells.Remove(alienCell);
 
-                Alien newAlien = new GameObject("Alien").AddComponent<Alien>();
-                StageManager.Instance.Aliens.Add(newAlien);
 
+                Alien newAlien;
                 if (Random.value <= 0.8)
                 {
+                    newAlien = Instantiate(StageManager.Instance.AlienTemplates[0].AlienPrefab).GetComponent<Alien>();
                     newAlien.AT = StageManager.Instance.AlienTemplates[0];
                 }
                 else
                 {
+                    newAlien = Instantiate(StageManager.Instance.AlienTemplates[1].AlienPrefab).GetComponent<Alien>();
                     newAlien.AT = StageManager.Instance.AlienTemplates[1];
                 }
-
+                StageManager.Instance.Aliens.Add(newAlien);
                 newAlien.CurrentCell = alienCell;
 
                 newAlien.transform.SetParent(transform);
@@ -113,7 +115,7 @@ public class Stage : MonoBehaviour
             }
             else
             {
-                Debug.Log("Stage: the number of alien is too great for the greed some alien will not spawn.");
+                Debug.Log("Stage: the number of alien is too great for the grid some alien will not spawn.");
             }
 
         }

@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 1
   Speed: 10
-  FireRate: 10
-  AlienPrefab: {fileID: 6193006381965422066, guid: 4675646322f29d7449c70d5745dc8a0d, type: 3}
+  FireRate: 13
+  AlienPrefab: {fileID: 3956025972954743084, guid: 13e279cb306b5794ea2babe091c177c4, type: 3}
+  Bullet: {fileID: 11400000, guid: 330fae3fb1373b44c94d46e4f13fabec, type: 2}
   DrawOrder: 1
+  canShoot: 0

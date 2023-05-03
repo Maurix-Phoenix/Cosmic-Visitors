@@ -4,24 +4,24 @@ using UnityEngine;
 
 public class Alien : MonoBehaviour, ISpaceShip
 {
+    public bool canShoot = false;
     public bool isActive;
     public int Health;
     public float FireRate;
     public float Speed;
     public AlienTemplate AT;
-    public GameObject Prefab = null;
-
     public Cell CurrentCell = null;
-
+    CapsuleCollider2D cCollider;
+    Rigidbody2D rb;
 
     private void Start()
     {
         isActive= true;
+        canShoot = AT.canShoot;
         Health = AT.Health;
         FireRate= AT.FireRate;
         Speed = AT.Speed;
-        Prefab = Instantiate(AT.AlienPrefab, transform);
-        Prefab.GetComponent<SpriteRenderer>().sortingOrder = AT.DrawOrder;
+        gameObject.GetComponent<SpriteRenderer>().sortingOrder = AT.DrawOrder;
     }
 
 
@@ -95,14 +95,19 @@ public class Alien : MonoBehaviour, ISpaceShip
 
     public void Shoot()
     {
-        FireRate -= Time.deltaTime;
-        if(FireRate <= 0)
+        if(canShoot)
         {
-            Debug.Log("Shot Fired");
-            //shoot
-
-            FireRate = AT.FireRate;
+            FireRate -= Time.deltaTime;
+            if (FireRate <= 0)
+            {
+                //shoot
+                Bullet bullet = Instantiate(AT.Bullet.BulletPrefab,transform.position, Quaternion.identity).GetComponent<Bullet>();
+                bullet.BT = AT.Bullet;
+                bullet.OriginTag = gameObject.tag;
+                FireRate = AT.FireRate;
+            }
         }
+
     }
 
     private void OnGameOver()

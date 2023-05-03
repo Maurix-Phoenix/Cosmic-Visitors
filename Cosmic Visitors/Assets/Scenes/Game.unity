@@ -254,8 +254,7 @@ MonoBehaviour:
   RangeY: 11
   Cells: []
   UsableCells: []
-  Player: {fileID: 0}
-  PlayerPrefab: {fileID: 5280793454156573753, guid: f35a25fd86c437d43bc0c34d42d253df, type: 3}
+  PlayerPrefab: {fileID: 4071492145031484288, guid: f35a25fd86c437d43bc0c34d42d253df, type: 3}
   PlayerSpawnPos: {x: 0, y: -11, z: 0}
   AlienTemplates:
   - {fileID: 11400000, guid: c7671ad9d5bf2084e8e05e4c554b43de, type: 2}

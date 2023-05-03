@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class StageManager : MonoBehaviour
@@ -14,9 +15,6 @@ public class StageManager : MonoBehaviour
     public List<Cell> Cells = new List<Cell>();
     public List<Cell> UsableCells = new List<Cell>();
 
-
-
-    public Player Player = null;
     public GameObject PlayerPrefab;
     public Vector3 PlayerSpawnPos = new Vector3(0,-11,0);
 
@@ -106,8 +104,6 @@ public class StageManager : MonoBehaviour
 
     private void SpawnPlayer()
     {
-        Player = new GameObject("Player").AddComponent<Player>();
-        Player.Prefab = PlayerPrefab;
-        Player.transform.position = PlayerSpawnPos;
+        Instantiate(PlayerPrefab, PlayerSpawnPos, Quaternion.identity);
     }
 }

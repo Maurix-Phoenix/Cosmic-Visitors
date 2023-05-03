@@ -15,5 +15,7 @@ MonoBehaviour:
   Health: 1
   Speed: 5
   FireRate: 5
-  AlienPrefab: {fileID: 6193006381965422066, guid: 9d3e4e4d5dbc7634aa4e87c460a645f0, type: 3}
+  AlienPrefab: {fileID: 3956025972954743084, guid: 956ca504ab679ce46b41b92eb97a117e, type: 3}
+  Bullet: {fileID: 11400000, guid: 330fae3fb1373b44c94d46e4f13fabec, type: 2}
   DrawOrder: 0
+  canShoot: 1

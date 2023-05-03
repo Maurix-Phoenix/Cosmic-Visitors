@@ -1,49 +1,77 @@
+using System.Net.NetworkInformation;
 using UnityEditor;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet: MonoBehaviour
 {
-
+    public string OriginTag;
     public BulletTemplate BT = null;
-    public Vector2 Direction = new Vector2(0, 0);
     public float Speed;
-    public GameObject Prefab;
+    private int yDir = 0;
     void Start()
     {
-        Prefab = BT.BulletPrefab;
+       
         Speed = BT.Speed;
-        
-        Instantiate(Prefab,transform);
+        if(OriginTag == "Alien")
+        {
+            yDir= -1;
+        }
+        if (OriginTag == "Player")
+        {
+            yDir = 1;
+            Speed = BT.Speed*1.5f;
+        }
+
     }
 
     // Update is called once per frame
     void Update()
-    {
+    {      
         if(BT.FollowEnemies)
         {
             //do stuff
         }
-        transform.Translate(Direction * Speed * Time.deltaTime);
+        transform.Translate(0, yDir * Speed * Time.deltaTime,0);
+
+        if(transform.position.x > StageManager.Instance.RangeX || transform.position.x < -StageManager.Instance.RangeX ||
+            transform.position.y > StageManager.Instance.RangeY || transform.position.y < -StageManager.Instance.RangeY -5)
+        { 
+            Destroy(gameObject);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //check if the collision is Alien or other
+        if(collision.gameObject.tag != OriginTag)
+        {
+            Debug.Log("hit " + collision.gameObject.name);
+
+            if(collision.gameObject.tag == "Player")
+            {
+               Player player = collision.gameObject.GetComponent<Player>();
+               player.TakeDamage(BT.Damage);
+            }
+            else if(collision.gameObject.tag == "Alien")
+            {
+                Alien alien = collision.gameObject.GetComponent<Alien>();
+                alien.TakeDamage(BT.Damage);
+            }
 
 
-        if(BT.OnHitOneKill)
-        {
-            //do stuff
-        }
-        if(BT.Bounce)
-        {
-            //do stuff
-        }
-        if(BT.SplitOnHit)
-        {
-            //do stuff
+            if (BT.Bounce)
+            {
+                //do something
+            }
+            else if (BT.SplitOnHit)
+            {
+                //do something
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
 
-        Destroy(gameObject);
+
     }
 }

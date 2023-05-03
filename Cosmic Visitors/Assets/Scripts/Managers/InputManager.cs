@@ -36,7 +36,7 @@ public class InputManager : MonoBehaviour
 
         }
 
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
             //moveleft
             RaiseOnInputMoveLeft();

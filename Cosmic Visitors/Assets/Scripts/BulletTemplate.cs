@@ -9,7 +9,7 @@ public class BulletTemplate : ScriptableObject
     public GameObject BulletPrefab;
     public string Name;
     public float Speed;
-    public float Damage;
+    public int Damage;
 
     public bool Bounce;
     public bool FollowEnemies;

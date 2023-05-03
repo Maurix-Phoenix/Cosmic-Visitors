@@ -1,20 +1,16 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 
 public class Player : MonoBehaviour, ISpaceShip
 {
+    public BulletTemplate[] BT = null;
     public bool canMove;
-    public GameObject Prefab;
     int health = 100;
     float moveSpeed = 15f;
     float fireRate = 0.5f;
     float currFireRate = 0;
     Vector3 direction;
-
-    private void Start()
-    {
-        Instantiate(Prefab,transform);
-    }
 
     private void OnEnable()
     {
@@ -63,6 +59,12 @@ public class Player : MonoBehaviour, ISpaceShip
         {
             //shoothere
             Debug.Log("Player Shoot");
+
+            //shoot
+            Bullet bullet = Instantiate(BT[0].BulletPrefab, transform.position, Quaternion.identity).GetComponent<Bullet>();
+            bullet.BT = BT[0];
+            bullet.OriginTag = gameObject.tag;
+
             currFireRate = fireRate;
         }
     }

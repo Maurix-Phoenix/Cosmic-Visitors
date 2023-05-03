@@ -9,6 +9,9 @@ public class AlienTemplate : ScriptableObject
     public float Speed;
     public float FireRate;
     public GameObject AlienPrefab;
+    public BulletTemplate Bullet;
 
     public int DrawOrder;
+
+    public bool canShoot;
 }

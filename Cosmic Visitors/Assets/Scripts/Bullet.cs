@@ -7,11 +7,15 @@ public class Bullet: MonoBehaviour
     public string OriginTag;
     public BulletTemplate BT = null;
     public float Speed;
+    private int xDir = 0;
     private int yDir = 0;
+
     void Start()
     {
+
        
         Speed = BT.Speed;
+
         if(OriginTag == "Alien")
         {
             yDir= -1;
@@ -31,7 +35,11 @@ public class Bullet: MonoBehaviour
         {
             //do stuff
         }
-        transform.Translate(0, yDir * Speed * Time.deltaTime,0);
+        else
+        {
+            transform.Translate(xDir, yDir * Speed * Time.deltaTime, 0);
+        }
+
 
         if(transform.position.x > StageManager.Instance.RangeX || transform.position.x < -StageManager.Instance.RangeX ||
             transform.position.y > StageManager.Instance.RangeY || transform.position.y < -StageManager.Instance.RangeY -5)
@@ -44,8 +52,6 @@ public class Bullet: MonoBehaviour
     {
         if(collision.gameObject.tag != OriginTag)
         {
-            Debug.Log("hit " + collision.gameObject.name);
-
             if(collision.gameObject.tag == "Player")
             {
                Player player = collision.gameObject.GetComponent<Player>();
@@ -56,16 +62,39 @@ public class Bullet: MonoBehaviour
                 Alien alien = collision.gameObject.GetComponent<Alien>();
                 alien.TakeDamage(BT.Damage);
             }
+            else if(collision.gameObject.tag == "AlienBoss")
+            {
+                AlienBoss alienBoss = collision.gameObject.GetComponent<AlienBoss>();
+                alienBoss.TakeDamage(BT.Damage);
+            }
 
 
             if (BT.Bounce)
             {
                 //do something
+                
             }
-            else if (BT.SplitOnHit)
+            
+            if (BT.SplitOnHit)
             {
                 //do something
+
             }
+
+            if (BT.OnHitOneKill)
+            {
+                //Alien Boss can't die with onehitonekill
+                if(collision.gameObject.tag != "AlienBoss")
+                {
+
+                }
+                else
+                {
+                    Alien alien = collision.gameObject.GetComponent<Alien>();
+                    alien.TakeDamage(alien.Health);
+                }
+            }
+
             else
             {
                 Destroy(gameObject);

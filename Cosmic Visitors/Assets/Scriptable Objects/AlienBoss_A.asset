@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d9892f8469b25e4f899e2d50101e7ae, type: 3}
+  m_Name: AlienBoss_A
+  m_EditorClassIdentifier: 
+  BossName: BlaBlaBla
+  AlienBossPrefab: {fileID: 895074210039057615, guid: 22a72198e9d28bd409ad220137993e54, type: 3}
+  Health: 30
+  MoveSpeed: 5
+  MoveTimer:
+  - 0
+  - 3
+  - 3
+  - 6
+  - 0
+  StayTimer:
+  - 0
+  - 5
+  - 5
+  - 3
+  - 0
+  ShotsTimer:
+  - 0
+  - 3
+  - 2
+  - 0.5
+  - 0
+  BossBT:
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 2bb07f9c4d0a59d4e8335c9618d28dcf, type: 2}
+  - {fileID: 11400000, guid: 2bb07f9c4d0a59d4e8335c9618d28dcf, type: 2}
+  - {fileID: 11400000, guid: 2bb07f9c4d0a59d4e8335c9618d28dcf, type: 2}
+  - {fileID: 0}
+  BulletTemplateP1: {fileID: 11400000, guid: 2bb07f9c4d0a59d4e8335c9618d28dcf, type: 2}
+  behaviourP1: 0
+  MoveTimerP1: 3
+  StayTimerP1: 5
+  ShotsTimerP1: 3
+  BulletTemplateP2: {fileID: 11400000, guid: 2bb07f9c4d0a59d4e8335c9618d28dcf, type: 2}
+  behaviourP2: 2
+  MoveTimerP2: 3
+  StayTimerP2: 5
+  ShotsTimerP2: 2
+  BulletTemplateP3: {fileID: 11400000, guid: 2bb07f9c4d0a59d4e8335c9618d28dcf, type: 2}
+  behaviourP3: 0
+  MoveTimerP3: 6
+  StayTimerP3: 3
+  ShotsTimerP3: 0.5

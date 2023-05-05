@@ -66,6 +66,10 @@ public class EventManager : MonoBehaviour
     public static event OnStageStart StageStart;
     public delegate void OnStageComplete();
     public static event OnStageComplete StageComplete;
+    public delegate void OnBossStageStart();
+    public static event OnBossStageStart BossStageStart;
+    public delegate void OnBossStageComplete();
+    public static event OnBossStageComplete BossStageComplete;
 
     public static void RaiseOnStageGenerated()
     {
@@ -88,6 +92,22 @@ public class EventManager : MonoBehaviour
         if(StageComplete!=null)
         {
             StageComplete();
+        }
+    }
+
+    public static void RaiseOnBossStageStart()
+    {
+        if(BossStageStart!=null)
+        {
+            BossStageStart();
+        }
+    }
+
+    public static void RaiseOnBossStageComplete()
+    {
+        if(BossStageComplete!=null)
+        {
+            BossStageComplete();
         }
     }
 

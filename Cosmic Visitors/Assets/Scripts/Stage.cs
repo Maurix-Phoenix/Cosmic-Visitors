@@ -1,4 +1,6 @@
-using Unity.VisualScripting;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml;
 using UnityEngine;
 
 
@@ -76,7 +78,8 @@ public class Stage : MonoBehaviour
 
         if(id % 5 == 0)
         {
-            //boss battle;
+            //boss battle
+            SpawnBoss(StageManager.Instance.AlienBossTemplate.AlienBossPrefab, StageManager.Instance.AlienBossSpawnPos);
         }
         else
         {
@@ -88,12 +91,20 @@ public class Stage : MonoBehaviour
 
     public void SpawnAliens(int number)
     {
+        List<Cell> usableCellsClone = new List<Cell>();
+        usableCellsClone.Clear();
+        for(int i = 0; i< StageManager.Instance.UsableCells.Count; i++ )
+        {
+            usableCellsClone.Add(StageManager.Instance.UsableCells[i]);
+        }
+        ///////
+        
         for (int i = 0; i < number; i++)
         {
-            if(i < StageManager.Instance.UsableCells.Count)
+            if(i < usableCellsClone.Count)
             {
-                Cell alienCell = StageManager.Instance.UsableCells[Random.Range(0, StageManager.Instance.UsableCells.Count)];
-                StageManager.Instance.UsableCells.Remove(alienCell);
+                Cell alienCell = usableCellsClone[Random.Range(0, usableCellsClone.Count)];
+                usableCellsClone.Remove(alienCell);
 
 
                 Alien newAlien;
@@ -119,5 +130,9 @@ public class Stage : MonoBehaviour
             }
 
         }
+    }
+    public void SpawnBoss(GameObject bossPrefab, Vector3 bossSpawnPos)
+    {
+        StageManager.Instance.AlienBoss = Instantiate(bossPrefab, bossSpawnPos, Quaternion.identity).GetComponent<AlienBoss>();
     }
 }

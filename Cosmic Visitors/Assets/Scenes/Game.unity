@@ -212,7 +212,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 81870981}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.0201614, y: 0.20503613, z: 0.06971191}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -248,18 +248,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38d981d92c1ef284ba0f21fc6e45d2ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StageNumber: 0
+  StageNumber: 4
   CurrentStage: {fileID: 0}
   RangeX: 20
   RangeY: 11
   Cells: []
   UsableCells: []
+  Player: {fileID: 0}
   PlayerPrefab: {fileID: 4071492145031484288, guid: f35a25fd86c437d43bc0c34d42d253df, type: 3}
   PlayerSpawnPos: {x: 0, y: -11, z: 0}
   AlienTemplates:
   - {fileID: 11400000, guid: c7671ad9d5bf2084e8e05e4c554b43de, type: 2}
   - {fileID: 11400000, guid: adfb02beb2e6e7d489ece6d5e2066d49, type: 2}
   Aliens: []
+  AlienBoss: {fileID: 0}
+  AlienBossTemplate: {fileID: 11400000, guid: 107b6dcd88015154eb11d3e5fe16e882, type: 2}
+  AlienBossSpawnPos: {x: 0, y: 15, z: 0}
 --- !u!4 &1316878395
 Transform:
   m_ObjectHideFlags: 0

@@ -1,3 +1,13 @@
 Day 1: the creation of the class diagram based on the description of the assignment.
 
 Day 2: Creation of the basic core systems of the game (Event Manager, Event Manager)
+
+Day 3: stage grid and aliens Placements
+
+Day 4: Player Movements, aliend movements
+	   and shoot system
+Day 5: Stage progression
+
+Day 6: Boss fight & points
+
+Day 7: UI, Sound and Effects 

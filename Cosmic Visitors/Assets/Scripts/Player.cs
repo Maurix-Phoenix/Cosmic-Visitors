@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -5,22 +6,33 @@ using UnityEngine;
 public class Player : MonoBehaviour, ISpaceShip
 {
     public BulletTemplate[] BT = null;
-    public bool canMove;
+    public bool canMove = false;
+    public bool canShoot = false;
     int maxHealth = 5;
     int currhealth;
     float moveSpeed = 15f;
-    float fireRate = 0.1f;
+    float fireRate = 0.03f;
     float currFireRate = 0;
     Vector3 direction;
 
+    private void Start()
+    {
+        currhealth = maxHealth;
+    }
+
     private void OnEnable()
     {
+        
+
         InputManager.InputFire += OnInputFire;
         InputManager.InputMoveLeft += OnInputMoveLeft;
         InputManager.InputMoveRight += OnInputMoveRight;
 
+        EventManager.GameOver += OnGameOver;
         EventManager.StageStart += OnStageStart;
         EventManager.StageComplete += OnStageComplete;
+        EventManager.BossStageStart += OnBossStageStart;
+        EventManager.BossStageComplete += OnBossStageComplete;
 
     }
 
@@ -30,8 +42,12 @@ public class Player : MonoBehaviour, ISpaceShip
         InputManager.InputMoveLeft -= OnInputMoveLeft;
         InputManager.InputMoveRight -= OnInputMoveRight;
 
+        EventManager.GameOver -= OnGameOver;
         EventManager.StageStart -= OnStageStart;
         EventManager.StageComplete -= OnStageComplete;
+        EventManager.BossStageStart -= OnBossStageStart;
+        EventManager.BossStageComplete -= OnBossStageComplete;
+
 
     }
 
@@ -46,6 +62,7 @@ public class Player : MonoBehaviour, ISpaceShip
     private void OnStageStart()
     {
         canMove = true;
+        canShoot = true;
         currFireRate= 0;
     }
     private void OnStageComplete()
@@ -53,26 +70,54 @@ public class Player : MonoBehaviour, ISpaceShip
         currhealth = maxHealth;
     }
 
+    private void OnBossStageStart()
+    {
+        canMove = true;
+        canShoot = true;
+    }
+    private void OnBossStageComplete()
+    {
+
+    }
+
+    private void OnGameOver()
+    {
+        canMove= false;
+        canShoot= false;
+
+        // death animation here...
+
+        gameObject.SetActive(false);
+    }
+
+
     public void Move()
     {
-        transform.Translate(direction * moveSpeed * Time.deltaTime);
-        direction = Vector3.zero;
+        if(canMove)
+        {
+            transform.Translate(direction * moveSpeed * Time.deltaTime);
+            direction = Vector3.zero;
+        }
     }
 
     public void Shoot()
     {
-       if(currFireRate <= 0)
+        if(canShoot)
         {
-            //shoothere
-            Debug.Log("Player Shoot");
+            if (currFireRate <= 0)
+            {
+                //shoothere
+                Debug.Log("Player Shoot");
 
-            //shoot
-            Bullet bullet = Instantiate(BT[0].BulletPrefab, transform.position, Quaternion.identity).GetComponent<Bullet>();
-            bullet.BT = BT[0];
-            bullet.OriginTag = gameObject.tag;
+                //shoot
+                Bullet bullet = Instantiate(BT[0].BulletPrefab, transform.position, Quaternion.identity).GetComponent<Bullet>();
+                bullet.BT = BT[0];
+                bullet.OriginTag = gameObject.tag;
 
-            currFireRate = fireRate;
+                currFireRate = fireRate;
+            }
         }
+
     }
 
     public void TakeDamage(int damage)
@@ -81,6 +126,8 @@ public class Player : MonoBehaviour, ISpaceShip
         if (currhealth <= 0)
         {
             GameManager.Instance.GameState = GameManager.State.GameOver;
+            canShoot = false;
+            canMove = false;
         }
     }
 
@@ -99,4 +146,6 @@ public class Player : MonoBehaviour, ISpaceShip
     {
         Shoot();
     }
+
+
 }

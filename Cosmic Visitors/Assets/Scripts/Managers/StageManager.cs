@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using static EventManager;
 
 public class StageManager : MonoBehaviour
 {
     public static StageManager Instance;
-    bool playingStage;
+    bool playingStage = false;
 
     public int StageNumber = 0;
     public Stage CurrentStage = null;
@@ -16,12 +16,16 @@ public class StageManager : MonoBehaviour
     public List<Cell> Cells = new List<Cell>();
     public List<Cell> UsableCells = new List<Cell>();
 
-    public Player Player;
+    [HideInInspector] public Player Player;
     public GameObject PlayerPrefab;
     public Vector3 PlayerSpawnPos = new Vector3(0,-11,0);
 
     public List<AlienTemplate> AlienTemplates = new List<AlienTemplate>();
     public List<Alien> Aliens = new List<Alien>();
+
+    [HideInInspector] public AlienBoss AlienBoss = null;
+    public AlienBossTemplate AlienBossTemplate;
+    public Vector3 AlienBossSpawnPos = new Vector3(0,15,0);
 
     private void Awake()
     {
@@ -41,6 +45,7 @@ public class StageManager : MonoBehaviour
         EventManager.GamePause += OnGamePause;
         EventManager.GameOver += OnGameOver;
         EventManager.StageGenerated += OnStageGenerated;
+        EventManager.BossStageComplete += OnBossStageComplete;
     }
 
     private void OnDisable()
@@ -49,6 +54,8 @@ public class StageManager : MonoBehaviour
         EventManager.GamePause -= OnGamePause;
         EventManager.GameOver -= OnGameOver;
         EventManager.StageGenerated -= OnStageGenerated;
+        EventManager.BossStageComplete -= OnBossStageComplete;
+
 
     }
 
@@ -62,7 +69,6 @@ public class StageManager : MonoBehaviour
                 if (Aliens.Count < 1)
                 {
                     StageComplete();
-                    EventManager.RaiseOnStageComplete();
                 }
             }
         }
@@ -91,13 +97,23 @@ public class StageManager : MonoBehaviour
         Debug.Log("New Stage");
         SpawnPlayer();
         StartStage();
+        StartCoroutine("StartStage");
     }
 
     public void StartStage() //should be COROUTINE
     {
         //setting a 5 sec timer here..
+        if(StageNumber % 5 != 0)
+        {
+            EventManager.RaiseOnStageStart();
+        }
+        else
+        {
+            RaiseOnBossStageStart();
+        }
+
         playingStage = true;
-        EventManager.RaiseOnStageStart();
+        
     }
 
     public void GenerateStage()
@@ -122,15 +138,25 @@ public class StageManager : MonoBehaviour
             Destroy(Aliens[i]);
         }
         Aliens.Clear();
-    }
 
+        if(AlienBoss != null)
+        {
+            Destroy(AlienBoss.gameObject);
+        }
+    }
 
     private void StageComplete()
     {
+        playingStage= false;
         Debug.Log("StageCompleted");
+        EventManager.RaiseOnStageComplete();
         GenerateStage();
     }
 
+    private void OnBossStageComplete()
+    {
+        StageComplete();
+    }
 
     private void SpawnPlayer()
     {

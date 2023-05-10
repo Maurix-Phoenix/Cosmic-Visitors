@@ -1,13 +1,17 @@
-Day 1: the creation of the class diagram based on the description of the assignment.
+Find out more on the progress on https://www.ludocromica.com/team/maurixs-blog
 
-Day 2: Creation of the basic core systems of the game (Event Manager, Event Manager)
+(01/05/2023) Day 1: The creation of the class diagram based on the description of the project.
+		    I must admit that this was not a easy task (and we just started!)
 
-Day 3: stage grid and aliens Placements
+(02/05/2023) Day 2: Creation of the basic core systems of the game (Managers)
 
-Day 4: Player Movements, aliend movements
-	   and shoot system
-Day 5: Stage progression
+(03/05/2023) Day 3: stage grid and aliens Placements
 
-Day 6: Boss fight & points
+(04/05/2023) Day 4: Player Movements, aliens movements
+                    and shoot system
+       
+(05/05/2023) Day 5: Stage progression
 
-Day 7: UI, Sound and Effects 
+(06/05/2023)* Day 6: Boss fight & boss mechanics
+
+(07/05/2023)* Day 7: UI, Sound and Effects 

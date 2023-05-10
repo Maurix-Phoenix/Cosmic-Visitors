@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
 public class Stage : MonoBehaviour
 {
     public int ID;
-
 
     public void GenerateGrid(int rangeSizeX, int rangeSizeY)
     {
@@ -61,7 +61,7 @@ public class Stage : MonoBehaviour
 
                 if (cell.Position.y > 2)
                 {
-                    cell.canSpawnAlien = true;
+                    cell.CanSpawnAlien = true;
                     StageManager.Instance.UsableCells.Add(cell);
                 }
 
@@ -88,7 +88,6 @@ public class Stage : MonoBehaviour
         }
         EventManager.RaiseOnStageGenerated();
     }
-
     public void SpawnAliens(int number)
     {
         List<Cell> usableCellsClone = new List<Cell>();
@@ -108,7 +107,8 @@ public class Stage : MonoBehaviour
 
 
                 Alien newAlien;
-                if (Random.value <= 0.8)
+                float rV = Random.value;
+                if (rV > 0.3)
                 {
                     newAlien = Instantiate(StageManager.Instance.AlienTemplates[0].AlienPrefab).GetComponent<Alien>();
                     newAlien.AT = StageManager.Instance.AlienTemplates[0];
@@ -118,6 +118,7 @@ public class Stage : MonoBehaviour
                     newAlien = Instantiate(StageManager.Instance.AlienTemplates[1].AlienPrefab).GetComponent<Alien>();
                     newAlien.AT = StageManager.Instance.AlienTemplates[1];
                 }
+
                 StageManager.Instance.Aliens.Add(newAlien);
                 newAlien.CurrentCell = alienCell;
 

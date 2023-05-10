@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static EventManager;
@@ -27,6 +28,8 @@ public class StageManager : MonoBehaviour
     public AlienBossTemplate AlienBossTemplate;
     public Vector3 AlienBossSpawnPos = new Vector3(0,15,0);
 
+    public List<GameObject> BulletsList = new List<GameObject>();
+
     private void Awake()
     {
         if(Instance != null && Instance != this)
@@ -55,8 +58,6 @@ public class StageManager : MonoBehaviour
         EventManager.GameOver -= OnGameOver;
         EventManager.StageGenerated -= OnStageGenerated;
         EventManager.BossStageComplete -= OnBossStageComplete;
-
-
     }
 
     private void Update()
@@ -65,7 +66,6 @@ public class StageManager : MonoBehaviour
         {
             if(StageNumber % 5 != 0) 
             {
-                Debug.Log("playingStage");
                 if (Aliens.Count < 1)
                 {
                     StageComplete();
@@ -76,6 +76,8 @@ public class StageManager : MonoBehaviour
 
     private void OnGameStart()
     {
+        StageNumber = 0;
+        ClearStage();
         GenerateStage();
     }
 
@@ -85,34 +87,44 @@ public class StageManager : MonoBehaviour
     }
     private void OnGameOver()
     {
+        ClearStage();
         StageNumber = 0;
-        for(int i = 0; i < Aliens.Count; i++)
-        {
-            Aliens[i].isActive = false;
-        }
     }
 
     private void OnStageGenerated()
     {
-        Debug.Log("New Stage");
         SpawnPlayer();
-        StartStage();
-        StartCoroutine("StartStage");
+        //StartStage();
+        StartCoroutine(StartStage(5));
     }
 
-    public void StartStage() //should be COROUTINE
+    IEnumerator StartStage(float waitTime)
     {
-        //setting a 5 sec timer here..
-        if(StageNumber % 5 != 0)
-        {
-            EventManager.RaiseOnStageStart();
-        }
-        else
-        {
-            RaiseOnBossStageStart();
-        }
+        UIManager.Instance.UIUpdateElement("UIStageStartingTitle", "Stage " + StageNumber.ToString());
+        
+            yield return Wait(waitTime);
+            if (StageNumber % 5 != 0)
+            {
+                EventManager.RaiseOnStageStart();
+            }
+            else
+            {
+                RaiseOnBossStageStart();
+            }
 
-        playingStage = true;
+            playingStage = true;
+            yield return null;
+    }
+
+    private IEnumerator Wait(float wTime)
+    {
+        float counter = 0;
+        while(counter < wTime)
+        {
+            counter += Time.deltaTime;
+            UIManager.Instance.UIUpdateElement("UIStageStartingText", ((int)(wTime - counter)).ToString());
+            yield return null;
+        }
         
     }
 
@@ -133,9 +145,17 @@ public class StageManager : MonoBehaviour
 
     public void ClearStage()
     {
-        for(int i = 0; i < Aliens.Count; i++)
+        for (int i = BulletsList.Count -1; i >=0; i--)
         {
-            Destroy(Aliens[i]);
+            Destroy(BulletsList[i].gameObject);
+            BulletsList.RemoveAt(i);
+        }
+        BulletsList.Clear();
+
+        for (int i = Aliens.Count - 1; i >= 0; i--)
+        {
+            Destroy(Aliens[i].gameObject);
+            Aliens.RemoveAt(i);
         }
         Aliens.Clear();
 
@@ -143,6 +163,8 @@ public class StageManager : MonoBehaviour
         {
             Destroy(AlienBoss.gameObject);
         }
+
+
     }
 
     private void StageComplete()
@@ -166,6 +188,7 @@ public class StageManager : MonoBehaviour
         }
         else
         {
+            Player.gameObject.SetActive(true);
             Player.transform.position = PlayerSpawnPos;
         }
     }

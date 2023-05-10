@@ -31,8 +31,17 @@ public class InputManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            //pausegame
-            RaiseOnInputPause();
+            if(GameManager.Instance.GameState == GameManager.State.Playing)
+            {
+                //esc Pause/unpause
+                GameManager.Instance.GameState = GameManager.State.Paused;
+                RaiseOnInputPause();
+            }
+            else
+            {
+                GameManager.Instance.GameState = GameManager.State.Playing;
+                RaiseOnInputUnpause();
+            }
 
         }
 
@@ -40,7 +49,6 @@ public class InputManager : MonoBehaviour
         {
             //moveleft
             RaiseOnInputMoveLeft();
-
         }
 
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
@@ -59,6 +67,8 @@ public class InputManager : MonoBehaviour
 
     public delegate void OnInputPause();
     public static event OnInputPause InputPause;
+    public delegate void OnInputUnpause();
+    public static event OnInputUnpause InputUnpause;
     public delegate void OnInputMoveLeft();
     public static event OnInputMoveLeft InputMoveLeft;
     public delegate void OnInputMoveRight();
@@ -73,6 +83,15 @@ public class InputManager : MonoBehaviour
             InputPause();
         }
     }
+
+    public static void RaiseOnInputUnpause()
+    {
+        if(InputUnpause != null)
+        {
+            InputUnpause();
+        }
+    }
+
     public static void RaiseOnInputMoveLeft()
     {
         if (InputMoveLeft != null)

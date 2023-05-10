@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BossName: BlaBlaBla
   AlienBossPrefab: {fileID: 895074210039057615, guid: 22a72198e9d28bd409ad220137993e54, type: 3}
-  Health: 30
+  Health: 60
   MoveSpeed: 5
   MoveTimer:
   - 0
@@ -51,7 +51,8 @@ MonoBehaviour:
   StayTimerP2: 5
   ShotsTimerP2: 2
   BulletTemplateP3: {fileID: 11400000, guid: 2bb07f9c4d0a59d4e8335c9618d28dcf, type: 2}
-  behaviourP3: 0
+  behaviourP3: 1
   MoveTimerP3: 6
   StayTimerP3: 3
   ShotsTimerP3: 0.5
+  BulletHellTimeChange: 3

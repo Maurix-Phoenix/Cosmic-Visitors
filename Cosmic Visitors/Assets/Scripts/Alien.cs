@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static EventManager;
 
 public class Alien : MonoBehaviour, ISpaceShip
 {
@@ -13,26 +14,37 @@ public class Alien : MonoBehaviour, ISpaceShip
     public Cell CurrentCell = null;
     CapsuleCollider2D cCollider;
     Rigidbody2D rb;
+    float delayShoot;
+    float delayT;
 
     private void Start()
     {
-        isActive= true;
+        isActive = false;
         canShoot = AT.canShoot;
         Health = AT.Health;
         FireRate= AT.FireRate;
         Speed = AT.Speed;
+        delayShoot = Random.Range(0.2f, 1);
+        delayT = delayShoot;
         gameObject.GetComponent<SpriteRenderer>().sortingOrder = AT.DrawOrder;
     }
 
 
     private void OnEnable()
     {
-        
+        EventManager.GameStart += OnGameStart;
+        EventManager.GamePause += OnGamePause;
+        EventManager.GameUnPause += OnGameUnPause;
+        EventManager.StageStart += OnStageStart;
         EventManager.GameOver += OnGameOver;
     }
 
     private void OnDisable()
     {
+        EventManager.GameStart -= OnGameStart;
+        EventManager.GamePause -= OnGamePause;
+        EventManager.GameUnPause -= OnGameUnPause;
+        EventManager.StageStart -= OnStageStart;
         EventManager.GameOver -= OnGameOver;
     }
 
@@ -98,17 +110,44 @@ public class Alien : MonoBehaviour, ISpaceShip
     {
         if(canShoot)
         {
+            
             FireRate -= Time.deltaTime;
             if (FireRate <= 0)
             {
-                //shoot
-                Bullet bullet = Instantiate(AT.Bullet.BulletPrefab,transform.position, Quaternion.identity).GetComponent<Bullet>();
-                bullet.BT = AT.Bullet;
-                bullet.OriginTag = gameObject.tag;
-                FireRate = AT.FireRate;
+                delayT -= Time.deltaTime;
+                if(delayT <=0)
+                {                
+                    //shoot
+                    Bullet bullet = Instantiate(AT.Bullet.BulletPrefab, transform.position, Quaternion.identity).GetComponent<Bullet>();
+                    bullet.BT = AT.Bullet;
+                    bullet.OriginTag = gameObject.tag;
+                    delayT = delayShoot;
+                    FireRate = AT.FireRate;
+                    StageManager.Instance.BulletsList.Add(bullet.gameObject);
+                }
             }
         }
 
+    }
+
+    private void OnStageStart()
+    {
+        isActive = true;
+    }
+
+    private void OnGameStart()
+    {
+        isActive= false;
+    }
+
+    private void OnGamePause()
+    {
+        isActive = false;
+    }
+
+    private void OnGameUnPause()
+    {
+        isActive = true;
     }
 
     private void OnGameOver()

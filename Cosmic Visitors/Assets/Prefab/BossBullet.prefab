@@ -139,3 +139,4 @@ MonoBehaviour:
   AlienBossOrigin: {fileID: 0}
   BAB: 0
   BBT: {fileID: 0}
+  Direction: {x: 0, y: 0}

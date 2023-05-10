@@ -1,19 +1,37 @@
 using System.Net.NetworkInformation;
 using UnityEditor;
 using UnityEngine;
+using static EventManager;
 
 public class Bullet: MonoBehaviour
 {
     public string OriginTag;
     public BulletTemplate BT = null;
-    public float Speed;
+    private float Speed;
     private int xDir = 0;
     private int yDir = 0;
+    private bool isActive;
+    
+
+    private void OnEnable()
+    {
+        EventManager.GameOver += OnGameOver;
+        EventManager.GameStart += OnGameStart;
+        EventManager.GamePause += OnGamePause;
+        EventManager.GameUnPause += OnGameUnPause;
+    }
+    private void OnDisable()
+    {
+        EventManager.GameOver -= OnGameOver;
+        EventManager.GameStart -= OnGameStart;
+        EventManager.GamePause -= OnGamePause;
+        EventManager.GameUnPause -= OnGameUnPause;
+    }
 
     void Start()
     {
 
-       
+        isActive = true;
         Speed = BT.Speed;
 
         if(OriginTag == "Alien")
@@ -31,21 +49,44 @@ public class Bullet: MonoBehaviour
     // Update is called once per frame
     void Update()
     {      
-        if(BT.FollowEnemies)
+        if(isActive)
         {
-            //do stuff
-        }
-        else
-        {
-            transform.Translate(xDir, yDir * Speed * Time.deltaTime, 0);
-        }
+            if (BT.FollowEnemies)
+            {
+                //do stuff
+            }
+            else
+            {
+                transform.Translate(xDir, yDir * Speed * Time.deltaTime, 0);
+            }
 
 
-        if(transform.position.x > StageManager.Instance.RangeX || transform.position.x < -StageManager.Instance.RangeX ||
-            transform.position.y > StageManager.Instance.RangeY || transform.position.y < -StageManager.Instance.RangeY -5)
-        { 
-            Destroy(gameObject);
+            if (transform.position.x > StageManager.Instance.RangeX || transform.position.x < -StageManager.Instance.RangeX ||
+                transform.position.y > StageManager.Instance.RangeY || transform.position.y < -StageManager.Instance.RangeY - 5)
+            {
+                Destroy(gameObject);
+            }
         }
+    }
+
+    private void OnGameStart()
+    {
+        isActive= false;
+    }
+
+    private void OnGamePause()
+    {
+        isActive = false;
+    }
+
+    private void OnGameUnPause()
+    {
+        isActive = true;
+    }
+
+    private void OnGameOver()
+    {
+        isActive = false;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

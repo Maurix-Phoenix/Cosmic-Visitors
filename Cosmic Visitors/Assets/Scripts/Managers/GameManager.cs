@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        StartGame();
+        UIManager.Instance.UIShowPanel("UIMainMenuPanel");
     }
 
     public void StartGame()

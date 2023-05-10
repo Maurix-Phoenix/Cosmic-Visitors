@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8253496263521802911}
   m_Layer: 0
   m_Name: Bullet
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -139,4 +139,3 @@ MonoBehaviour:
   OriginTag: 
   BT: {fileID: 11400000, guid: 330fae3fb1373b44c94d46e4f13fabec, type: 2}
   Speed: 0
-  Prefab: {fileID: 0}

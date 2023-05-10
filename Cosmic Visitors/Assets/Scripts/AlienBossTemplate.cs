@@ -50,6 +50,8 @@ public class AlienBossTemplate : ScriptableObject
     [Tooltip("Every x second the boss will shoot")]
     public float ShotsTimerP3;
 
+    public float BulletHellTimeChange = 2.0f;
+
     public void InitBoss()
     {
         MoveTimer[(int)BossPhases.Phase1] = MoveTimerP1;

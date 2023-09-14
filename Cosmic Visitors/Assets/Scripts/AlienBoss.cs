@@ -357,7 +357,6 @@ public class AlienBoss : MonoBehaviour
 
     private void OnStageStart()
     {
-        Debug.Log("BOSS StageStarted");
         EventManager.RaiseOnBossStageStart();
     }
     public void InitialAnimation()

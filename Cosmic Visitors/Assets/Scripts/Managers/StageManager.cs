@@ -44,7 +44,7 @@ public class StageManager : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.GameStart += OnGameStart;
+        EventManager.GameStart += OnGameStart; 
         EventManager.GamePause += OnGamePause;
         EventManager.GameOver += OnGameOver;
         EventManager.StageGenerated += OnStageGenerated;
@@ -163,8 +163,6 @@ public class StageManager : MonoBehaviour
         {
             Destroy(AlienBoss.gameObject);
         }
-
-
     }
 
     private void StageComplete()

@@ -9,7 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5db2f9bdc8fd07844b3a6f37f95fe67d, type: 3}
-  m_Name: New Stage Template
+  m_Script: {fileID: 11500000, guid: 3a611662b9930ba48848c7093df4ea15, type: 3}
+  m_Name: New Alien
   m_EditorClassIdentifier: 
-  StageString: 
+  Health: 0
+  Speed: 0
+  FireRate: 0
+  AlienPrefab: {fileID: 0}
+  Bullet: {fileID: 0}
+  DrawOrder: 0
+  canShoot: 0

@@ -5,8 +5,8 @@ using static EventManager;
 
 public class Alien : MonoBehaviour, ISpaceShip
 {
+    private bool isActive = false;
     public bool canShoot = false;
-    public bool isActive;
     public int Health;
     public float FireRate;
     public float FireRateVariation;
@@ -131,7 +131,6 @@ public class Alien : MonoBehaviour, ISpaceShip
                 }
             }
         }
-
     }
 
     private void OnStageStart()
@@ -141,7 +140,6 @@ public class Alien : MonoBehaviour, ISpaceShip
 
     private void OnGameStart()
     {
-        isActive= false;
     }
 
     private void OnGamePause()
@@ -156,7 +154,6 @@ public class Alien : MonoBehaviour, ISpaceShip
 
     private void OnGameOver()
     {
-        isActive= false;
     }
 
 

@@ -48,21 +48,26 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+
+        Time.timeScale = 1.0f;
         gameState= State.Playing;
         EventManager.RaiseOnGameStart();
     }
-    private void PauseGame()
+    public void PauseGame()
     {
+        Time.timeScale = 0;
         gameState= State.Paused;
         EventManager.RaiseOnGamePause();
     }
-    private void UnPauseGame()
+    public void UnPauseGame()
     {
+        Time.timeScale = 1;
         gameState = State.Playing;
         EventManager.RaiseGameUnPause();
     }
-    private void GameOver()
+    public void GameOver()
     {
+        Time.timeScale = 0;
         gameState= State.GameOver;
         EventManager.RaiseOnGameOver();
     }

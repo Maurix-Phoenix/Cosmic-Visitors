@@ -105,13 +105,12 @@ public class StageManager : MonoBehaviour
             yield return Wait(waitTime);
             if (StageNumber % 5 != 0)
             {
-                EventManager.RaiseOnStageStart();
+                RaiseOnStageStart();
             }
             else
             {
                 RaiseOnBossStageStart();
             }
-
             playingStage = true;
             yield return null;
     }
@@ -124,8 +123,7 @@ public class StageManager : MonoBehaviour
             counter += Time.deltaTime;
             UIManager.Instance.UIUpdateElement("UIStageStartingText", ((int)(wTime - counter)).ToString());
             yield return null;
-        }
-        
+        }        
     }
 
     public void GenerateStage()

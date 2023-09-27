@@ -11,7 +11,7 @@ public class Player : MonoBehaviour, ISpaceShip
     private int maxHealth = 5;
     private int currhealth;
     private float moveSpeed = 20f;
-    private float fireRate = 0.1f;
+    private float fireRate = 0.5f;
     private float currFireRate = 0;
     private Vector3 direction;
 
@@ -56,9 +56,23 @@ public class Player : MonoBehaviour, ISpaceShip
 
     private void Update()
     {
-        if(currFireRate > 0)
+        if (currFireRate > 0)
         {
-            currFireRate-=Time.deltaTime;
+            currFireRate -= Time.deltaTime;
+        }
+
+        CheckBoundPosition();
+    }
+
+    private void CheckBoundPosition()
+    {
+        if (transform.position.x > 19)
+        {
+            transform.position = new Vector3(19, transform.position.y, transform.position.z);
+        }
+        if (transform.position.x < -19)
+        {
+            transform.position = new Vector3(-19, transform.position.y, transform.position.z);
         }
     }
 

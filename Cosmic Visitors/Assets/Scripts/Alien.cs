@@ -9,6 +9,7 @@ public class Alien : MonoBehaviour, ISpaceShip
     public bool isActive;
     public int Health;
     public float FireRate;
+    public float FireRateVariation;
     public float Speed;
     public AlienTemplate AT;
     public Cell CurrentCell = null;
@@ -23,10 +24,12 @@ public class Alien : MonoBehaviour, ISpaceShip
         canShoot = AT.canShoot;
         Health = AT.Health;
         FireRate= AT.FireRate;
+        FireRateVariation = AT.FireRateVariation;
         Speed = AT.Speed;
         delayShoot = Random.Range(0.2f, 1);
-        delayT = delayShoot;
+        delayT = delayShoot + Random.Range(-FireRateVariation,FireRateVariation);
         gameObject.GetComponent<SpriteRenderer>().sortingOrder = AT.DrawOrder;
+
     }
 
 
@@ -91,7 +94,8 @@ public class Alien : MonoBehaviour, ISpaceShip
         }
         if (CurrentCell != null)
         {
-            transform.Translate(CurrentCell.MoveDirection * AT.Speed * Time.deltaTime);
+            transform.position += (CurrentCell.MoveDirection * AT.Speed * Time.deltaTime);
+            //transform.Translate(CurrentCell.MoveDirection * AT.Speed * Time.deltaTime);
         }
 
     }

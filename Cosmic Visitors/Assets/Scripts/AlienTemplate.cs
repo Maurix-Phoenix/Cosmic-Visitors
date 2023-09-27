@@ -8,6 +8,7 @@ public class AlienTemplate : ScriptableObject
     public int Health;
     public float Speed;
     public float FireRate;
+    public float FireRateVariation = 1f;
     public GameObject AlienPrefab;
     public BulletTemplate Bullet;
 
